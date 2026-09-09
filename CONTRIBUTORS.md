@@ -1,12 +1,9 @@
-# Contribución del equipo
+# Contribución documentada
 
-> Completar con los nombres reales antes de entregar. La siguiente distribución es una propuesta de organización, no una declaración de trabajo ya realizado.
+Esta versión consolidada identifica únicamente la autoría que consta de forma explícita en los materiales disponibles.
 
-| Integrante | Responsabilidad propuesta |
+| Integrante identificado | Contribución documentada |
 |---|---|
-| Rubén Juárez Cádiz | Integración técnica, DDL, restricciones y QA. |
-| [Integrante 2] | Análisis de requisitos y modelo E-R. |
-| [Integrante 3] | Transformación relacional y normalización. |
-| [Integrante 4] | Inserciones, pruebas negativas y evidencias de MySQL. |
+| Rubén Juárez Cádiz | Integración técnica del modelo E-R y relacional, DDL MySQL, restricciones, datos sintéticos, pruebas negativas, documentación y QA del repositorio. |
 
-Todos los integrantes deben revisar la versión final y sustituir esta propuesta por la contribución real del grupo.
+No se atribuyen contribuciones a personas no identificadas en la documentación disponible. Esta decisión evita inventar autorías o responsabilidades no verificadas.

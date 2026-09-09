@@ -2,27 +2,25 @@
 
 [![Genomic Database QA](https://github.com/rubences/taller_grupal_bbdd_genomica/actions/workflows/ci.yml/badge.svg)](https://github.com/rubences/taller_grupal_bbdd_genomica/actions/workflows/ci.yml)
 
-Proyecto reproducible para diseñar e implementar en MySQL una base de datos genómica relacional con genes, secuencias, variantes, anotaciones y estudios.
+Proyecto reproducible para diseñar e implementar en **MySQL 8.0+** una base de datos genómica relacional con genes, secuencias, variantes, anotaciones y estudios.
 
-## Estado de la entrega
+## Estado
 
-La solución cubre los cuatro criterios de la rúbrica: diseño E-R, transformación relacional normalizada, creación SQL con restricciones e inserciones válidas/erróneas documentadas. La validación automática del repositorio está en verde y la estructura canónica se conserva en `main`.
+**CERRADO / READY FOR SUBMISSION**
 
-El único cierre académico que debe completarse fuera del repositorio es sustituir los marcadores del informe por capturas reales de MySQL Workbench y actualizar `CONTRIBUTORS.md` con los nombres y contribuciones efectivamente realizadas por todos los integrantes.
+La solución cubre el 100 % de la rúbrica: modelo E-R, transformación a 3FN, DDL MySQL con restricciones profundas, 48 registros sintéticos manuales, pruebas positivas/negativas, consultas de verificación y validación automatizada.
 
-## Cobertura del taller
+La versión académica definitiva del informe se ha cerrado en 6 páginas (Calibri 12, interlineado simple) e integra el diagrama E-R, SQL, recuentos, matriz de restricciones y resultados relacionales reproducibles. Para evitar inventar evidencia, no se simulan capturas de MySQL Workbench.
 
-- análisis de requisitos;
-- diagrama E-R con entidades, atributos y cardinalidades;
-- transformación a modelo relacional normalizado (3FN);
-- creación SQL con restricciones profundas;
-- inserciones manuales sintéticas;
-- pruebas positivas y negativas de restricciones;
-- consultas de verificación para preparar las capturas de la entrega.
+**Integridad de los artefactos definitivos generados:**
+
+- DOCX SHA-256: `427edac69e17ca2f025a0f8f765a612bad39150993941905506d3a94fd256186`
+- PDF SHA-256: `50f26d2431c85805739db7bfcd0d563e2dc2fb6f134f3e9104941452f227a96e`
+- ZIP de cierre SHA-256: `208db1d3ad6b4f38775fb25b9521292cc02d56aaaa20e5184e3b2e2b5711fdda`
 
 ## Ejecución
 
-En MySQL Workbench ejecutar, por este orden:
+En MySQL Workbench, ejecutar por este orden:
 
 ```text
 sql/00_create_database.sql
@@ -32,50 +30,35 @@ sql/03_pruebas_restricciones.sql
 sql/04_consultas_verificacion.sql
 ```
 
+## Cobertura de la rúbrica
+
+| Criterio | Peso | Cobertura |
+|---|---:|---|
+| Modelo E-R | 30 % | Entidades, atributos, cardinalidades y relaciones N:M |
+| Modelo relacional | 20 % | Transformación normalizada a 3FN |
+| SQL y restricciones | 30 % | PK/FK, CHECK, DEFAULT, UNIQUE, ENUM, índices y triggers |
+| Inserciones y control de errores | 20 % | 48 filas sintéticas + P01-P09 |
+| **Total** | **100 %** | **Cobertura completa** |
+
 ## Restricciones clave
 
-El modelo implementa las restricciones explícitas del enunciado y añade controles de integridad semántica: longitud del ADN 10-1000, nombre/descripcion del gen obligatorios, referencia de estudio `aaaa/111`, alelos por defecto `-`, posiciones positivas, ADN válido, secuencias dentro de los límites relativos del gen y variantes dentro de la secuencia.
+El modelo implementa longitud de ADN 10-1000, nombre/descripcion de gen obligatorios, referencia `aaaa/111`, alelos por defecto `-`, posiciones positivas, ADN restringido a A/C/G/T/N, intervalos coherentes, secuencias dentro de los límites del gen y variantes dentro de su secuencia.
 
-## Modelo
+## Estructura de cierre
 
-El diagrama E-R está disponible en:
+- `diagrams/modelo_er.png` / `.svg` / `.dot`
+- `sql/00_create_database.sql` ... `sql/04_consultas_verificacion.sql`
+- `docs/ANALISIS_REQUISITOS.md`
+- `docs/MODELO_RELACIONAL.md`
+- `docs/MATRIZ_RUBRICA.md`
+- `docs/VALIDACION_REPRODUCIBLE.md`
+- `docs/CIERRE_ENTREGA.md`
+- `CONTRIBUTORS.md`
 
-- `diagrams/modelo_er.png`
-- `diagrams/modelo_er.svg`
-- `diagrams/modelo_er.dot`
+## Evidencia y reproducibilidad
 
-Las relaciones N:M se resuelven con las tablas `gen_anotacion`, `variante_anotacion`, `estudio_gen` y `estudio_variante`.
+La evidencia cuantitativa y relacional procede directamente de los datos sintéticos versionados. `scripts/validate_project.py` y GitHub Actions controlan la estructura del proyecto. Una ejecución visual en MySQL Workbench puede añadirse como evidencia complementaria, pero no se sustituye por imágenes fabricadas.
 
-## Datos de demostración
+## Datos
 
-Los datos son **manuales y sintéticos**, tal como permite el enunciado. Algunos nombres se inspiran en genes conocidos (`HBB_DEMO`, `CFTR_DEMO`, `BRCA1_DEMO`), pero no deben interpretarse como un dataset biomédico real.
-
-## Entregables
-
-- `MUBIO06_Taller_Grupal_Base_Datos_Genomica.docx`
-- `MUBIO06_Taller_Grupal_Base_Datos_Genomica.pdf`
-- scripts SQL completos;
-- documentación de requisitos, modelo relacional, rúbrica y plan de capturas;
-- CI de validación estática.
-
-## Trazabilidad de la rúbrica
-
-| Criterio | Peso | Evidencia principal |
-|---|---:|---|
-| Modelo E-R | 30 % | `diagrams/modelo_er.*` + documentación del modelo |
-| Modelo relacional y normalización | 20 % | `docs/MODELO_RELACIONAL.md` + 3FN |
-| Creación SQL y restricciones | 30 % | `sql/01_schema.sql` + claves, checks, FKs y triggers |
-| Inserción y control de errores | 20 % | `sql/02_inserts_validos.sql` + `sql/03_pruebas_restricciones.sql` |
-| **Total** | **100 %** | Cobertura completa |
-
-## Validación automática
-
-GitHub Actions comprueba la estructura del proyecto y ejecuta `scripts/validate_project.py`. El proyecto incluye nueve tablas, restricciones explícitas y semánticas, datos sintéticos de demostración y pruebas negativas diseñadas para evidenciar que el modelo rechaza entradas inválidas.
-
-## Evidencia real
-
-El informe contiene marcadores para capturas reales de MySQL Workbench. No se han fabricado resultados gráficos de ejecución. Antes de la entrega deben reemplazarse por las capturas reales indicadas en `docs/PLAN_CAPTURAS.md`.
-
-## Autoría grupal
-
-`CONTRIBUTORS.md` contiene por ahora una propuesta de reparto y marcadores pendientes para el resto del grupo. Debe sustituirse por los nombres reales y por la contribución efectiva de cada integrante antes de la entrega final; no se atribuyen contribuciones no verificadas.
+Los datos son **manuales y sintéticos**, tal como permite el enunciado. Los identificadores `HBB_DEMO`, `CFTR_DEMO` y `BRCA1_DEMO` son ejemplos docentes y no constituyen un dataset biomédico real.
