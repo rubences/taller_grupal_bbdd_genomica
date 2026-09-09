@@ -1,0 +1,9 @@
+__pycache__/
+.pytest_cache/
+.venv/
+*.log
+.DS_Store
+Thumbs.db
+# Datos pesados o exportaciones de BD
+*.dump
+*.sql.gz

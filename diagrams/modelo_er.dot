@@ -1,0 +1,97 @@
+digraph ER {
+  graph [rankdir=TB, splines=polyline, nodesep=0.45, ranksep=0.85, pad=0.2, bgcolor="white"];
+  node [shape=plain, fontname="Arial"];
+  edge [fontname="Arial", fontsize=10, arrowsize=0.7];
+  { rank=same; gen; sec; var; }
+  { rank=same; ga; anot; va; }
+  { rank=same; eg; estudio; ev; }
+
+  gen [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5">
+      <TR><TD BGCOLOR="#D9EAF7"><B>GEN</B></TD></TR>
+      <TR><TD ALIGN="LEFT"><B>PK</B> gen_id</TD></TR>
+      <TR><TD ALIGN="LEFT">nombre (UNIQUE, NOT NULL)</TD></TR>
+      <TR><TD ALIGN="LEFT">descripcion (NOT NULL)</TD></TR>
+      <TR><TD ALIGN="LEFT">cromosoma</TD></TR>
+      <TR><TD ALIGN="LEFT">posicion_inicio / fin</TD></TR>
+      <TR><TD ALIGN="LEFT">hebra</TD></TR>
+    </TABLE>>];
+
+  sec [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5">
+      <TR><TD BGCOLOR="#E2F0D9"><B>SECUENCIA</B></TD></TR>
+      <TR><TD ALIGN="LEFT"><B>PK</B> secuencia_id</TD></TR>
+      <TR><TD ALIGN="LEFT"><B>FK</B> gen_id</TD></TR>
+      <TR><TD ALIGN="LEFT">tipo</TD></TR>
+      <TR><TD ALIGN="LEFT">adn [10..1000]</TD></TR>
+      <TR><TD ALIGN="LEFT">posicion_relativa &gt; 0</TD></TR>
+      <TR><TD ALIGN="LEFT">longitud (GENERATED)</TD></TR>
+    </TABLE>>];
+
+  var [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5">
+      <TR><TD BGCOLOR="#FCE4D6"><B>VARIANTE</B></TD></TR>
+      <TR><TD ALIGN="LEFT"><B>PK</B> variante_id</TD></TR>
+      <TR><TD ALIGN="LEFT"><B>FK</B> secuencia_id</TD></TR>
+      <TR><TD ALIGN="LEFT">posicion_relativa &gt; 0</TD></TR>
+      <TR><TD ALIGN="LEFT">alelo_referencia DEFAULT '-'</TD></TR>
+      <TR><TD ALIGN="LEFT">alelo_alternativo DEFAULT '-'</TD></TR>
+      <TR><TD ALIGN="LEFT">tipo</TD></TR>
+    </TABLE>>];
+
+  anot [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5">
+      <TR><TD BGCOLOR="#FFF2CC"><B>ANOTACION</B></TD></TR>
+      <TR><TD ALIGN="LEFT"><B>PK</B> anotacion_id</TD></TR>
+      <TR><TD ALIGN="LEFT">tipo</TD></TR>
+      <TR><TD ALIGN="LEFT">descripcion</TD></TR>
+    </TABLE>>];
+
+  estudio [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5">
+      <TR><TD BGCOLOR="#E4DFEC"><B>ESTUDIO</B></TD></TR>
+      <TR><TD ALIGN="LEFT"><B>PK</B> estudio_id</TD></TR>
+      <TR><TD ALIGN="LEFT">titulo</TD></TR>
+      <TR><TD ALIGN="LEFT">fecha_publicacion</TD></TR>
+      <TR><TD ALIGN="LEFT">referencia aaaa/111</TD></TR>
+    </TABLE>>];
+
+  ga [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4">
+      <TR><TD BGCOLOR="#F2F2F2"><B>GEN_ANOTACION</B></TD></TR>
+      <TR><TD ALIGN="LEFT"><B>PK/FK</B> gen_id</TD></TR>
+      <TR><TD ALIGN="LEFT"><B>PK/FK</B> anotacion_id</TD></TR>
+    </TABLE>>];
+
+  va [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4">
+      <TR><TD BGCOLOR="#F2F2F2"><B>VARIANTE_ANOTACION</B></TD></TR>
+      <TR><TD ALIGN="LEFT"><B>PK/FK</B> variante_id</TD></TR>
+      <TR><TD ALIGN="LEFT"><B>PK/FK</B> anotacion_id</TD></TR>
+    </TABLE>>];
+
+  eg [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4">
+      <TR><TD BGCOLOR="#F2F2F2"><B>ESTUDIO_GEN</B></TD></TR>
+      <TR><TD ALIGN="LEFT"><B>PK/FK</B> estudio_id</TD></TR>
+      <TR><TD ALIGN="LEFT"><B>PK/FK</B> gen_id</TD></TR>
+    </TABLE>>];
+
+  ev [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4">
+      <TR><TD BGCOLOR="#F2F2F2"><B>ESTUDIO_VARIANTE</B></TD></TR>
+      <TR><TD ALIGN="LEFT"><B>PK/FK</B> estudio_id</TD></TR>
+      <TR><TD ALIGN="LEFT"><B>PK/FK</B> variante_id</TD></TR>
+    </TABLE>>];
+
+  gen -> sec [label=" 1 : N ", dir=both, arrowtail=none, arrowhead=vee];
+  sec -> var [label=" 1 : N ", dir=both, arrowtail=none, arrowhead=vee];
+  gen -> ga [label=" 1 : N "];
+  ga -> anot [label=" N : 1 "];
+  var -> va [label=" 1 : N "];
+  va -> anot [label=" N : 1 "];
+  estudio -> eg [label=" 1 : N "];
+  eg -> gen [label=" N : 1 "];
+  estudio -> ev [label=" 1 : N "];
+  ev -> var [label=" N : 1 "];
+}
